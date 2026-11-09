@@ -172,10 +172,17 @@
     <!-- Toast Alert Container -->
     <div id="toast" class="toast">Такого слова нет в словаре</div>
 
-    <!-- Header -->
-    <header class="w-full max-w-lg border-b border-[#272729] py-3 text-center flex justify-between items-center px-4">
-        <h1 class="text-2xl font-black tracking-wider uppercase text-white flex-grow">ВОРДЛИ</h1>
-        <button id="help-btn" class="text-gray-400 hover:text-white transition">
+<!-- Header -->
+    <header class="w-full max-w-lg border-b border-[#272729] py-3 relative flex items-center justify-center px-4">
+        <div id="logo-tiles" class="flex gap-1 items-center justify-center font-black text-lg">
+            <span class="logo-tile w-7 h-7 flex items-center justify-center rounded">В</span>
+            <span class="logo-tile w-7 h-7 flex items-center justify-center rounded">О</span>
+            <span class="logo-tile w-7 h-7 flex items-center justify-center rounded">Р</span>
+            <span class="logo-tile w-7 h-7 flex items-center justify-center rounded">Д</span>
+            <span class="logo-tile w-7 h-7 flex items-center justify-center rounded">Л</span>
+            <span class="logo-tile w-7 h-7 flex items-center justify-center rounded">И</span>
+        </div>
+        <button id="help-btn" class="absolute right-4 text-gray-400 hover:text-white transition">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
@@ -699,8 +706,26 @@
         const closeRulesBtn = document.getElementById("close-rules");
         const understandBtn = document.getElementById("understand-btn");
 
+
+// Функция случайной покраски плиток логотипа
+        function colorizeLogo() {
+            const colors = ['bg-[#6aaa64]', 'bg-[#c9b458]', 'bg-[#3a3a3c]'];
+            const tiles = document.querySelectorAll('#logo-tiles .logo-tile');
+
+            tiles.forEach(tile => {
+                // Сбрасываем предыдущие классы цветов
+                tile.classList.remove('bg-[#6aaa64]', 'bg-[#c9b458]', 'bg-[#3a3a3c]');
+                
+                // Выбираем случайный цвет из массива
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                tile.classList.add(randomColor);
+            });
+        }
         // Initialize Game
         function initGame() {
+
+        // Красим плитки логотипа случайным образом
+            colorizeLogo();
             // Select random target word
             secretWord = cleanWord(DICTIONARY[Math.floor(Math.random() * DICTIONARY.length)]);
             currentAttempt = 0;
