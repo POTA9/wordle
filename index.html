@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Вордли</title>
     <!-- Tailwind CSS CDN -->
-     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%236aaa64%22/><text x=%2250%22 y=%2270%22 font-size=%2260%22 font-family=%22Arial, sans-serif%22 font-weight=%22bold%22 fill=%22%23ffffff%22 text-anchor=%22middle%22>В</text></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%236aaa64%22/><text x=%2250%22 y=%2270%22 font-size=%2260%22 font-family=%22Arial, sans-serif%22 font-weight=%22bold%22 fill=%22%23ffffff%22 text-anchor=%22middle%22>В</text></svg>">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500;700;900&display=swap');
@@ -684,6 +684,7 @@
         let currentTileIndex = 0;
         let currentGuess = [];
         let isGameOver = false;
+        let isAnimating = false;
 
         const KEYBOARD_LAYOUT = [
             ["й", "ц", "у", "к", "е","ё", "н", "г", "ш", "щ", "з", "х", "ъ"],
@@ -795,7 +796,8 @@
 
         // Input Dispatcher
         function handleInput(key) {
-            if (isGameOver) return;
+
+            if (isGameOver || isAnimating) return;
 
             const letter = key.toLowerCase();
 
@@ -861,6 +863,7 @@
 
         // Reveal and Evaluate Row
         function revealRow(guess, rowIndex) {
+            isAnimating = true;
             const rowTiles = Array.from(boardEl.children[rowIndex].children);
             const secretLetters = secretWord.split("");
             const guessLetters = guess.split("");
@@ -894,7 +897,7 @@
                         tile.classList.add(`tile-${tileStates[i]}`);
                         updateKeyboardKey(guessLetters[i], tileStates[i]);
                     }, 250);
-
+                
                 }, i * 150);
             });
 
@@ -908,6 +911,7 @@
                     currentAttempt++;
                     currentGuess = [];
                 }
+                isAnimating = false;
             }, 5 * 150 + 250);
         }
 
